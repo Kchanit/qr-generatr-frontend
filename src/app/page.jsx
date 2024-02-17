@@ -11,7 +11,7 @@ import { useToast } from "@/components/ui/use-toast";
 export default function Home() {
   const [input, setInput] = useState("");
   const [size, setSize] = useState(250);
-  const [qrCode, setQrCode] = useState(null);
+  const [qrCode, setQrCode] = useState("/examples/exampleQR.png");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -65,14 +65,6 @@ export default function Home() {
 
     document.body.removeChild(element);
   };
-
-  useEffect(() => {
-    return () => {
-      if (!qrCode) {
-        setQrCode("/examples/exampleQR.png");
-      }
-    };
-  });
 
   return (
     <main className="flex min-h-screen flex-col place-items-center p-12">
