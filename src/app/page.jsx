@@ -6,26 +6,44 @@ import { Button } from "../components/ui/button";
 import { Slider } from "../components/ui/slider";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
+import { Icons } from "@/components/icon";
 
 export default function Home() {
   const [input, setInput] = useState("");
   const [size, setSize] = useState(250);
   const [qrCode, setQrCode] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(buildApiUrl("generate"), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ content: input, size: 200 }),
-    });
-    if (response.ok) {
-      const blob = await response.blob();
-      setQrCode(URL.createObjectURL(blob));
-    } else {
-      console.error("Failed to generate QR code:", response.status);
+    setIsLoading(true);
+    try {
+      const response = await fetch(buildApiUrl("generate"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: input, size: 200 }),
+      });
+      console.log(response);
+      if (response.ok) {
+        const blob = await response.blob();
+        setQrCode(URL.createObjectURL(blob));
+      } else {
+        console.error("Failed to generate QR code:", response.status);
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "Please try again later.",
+      });
+      console.error("Failed to generate QR code:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -97,15 +115,19 @@ export default function Home() {
       <p className="mt-4">
         Size: {size} x {size} px
       </p>
+
       {qrCode && (
         <div className="flex flex-col place-items-center mt-4">
-          <Image
-            src={qrCode}
-            alt="QR Code"
-            width={parseInt(size)}
-            height={parseInt(size)}
-            priority={true}
-          />
+          <div className="relative">
+            <Image
+              src={qrCode}
+              alt="QR Code"
+              width={parseInt(size)}
+              height={parseInt(size)}
+              priority={true}
+              className="rounded-lg shadow-lg"
+            />
+          </div>
           <div className="mt-4">
             <Button onClick={(e) => handleDownload(e, "png")} className="mr-2">
               Download PNG

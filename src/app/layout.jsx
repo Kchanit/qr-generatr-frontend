@@ -2,11 +2,12 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "../components/header";
 import Footer from "@/components/footer";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "QR GEN",
+  title: "QR Generatr",
   description: "QR Code Generator",
 };
 
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <Header />
         {children}
+        <Toaster />
         <Footer />
       </body>
     </html>
