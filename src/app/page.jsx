@@ -108,14 +108,16 @@ export default function Home() {
       {qrCode && (
         <div className="flex flex-col place-items-center mt-8">
           <div className="relative">
-            <Image
-              src={qrCode}
-              alt="QR Code"
-              width={parseInt(size)}
-              height={parseInt(size)}
-              priority={true}
-              className="rounded-lg shadow-lg"
-            />
+            <a href={qrCode} target="_blank" rel="noopener noreferrer">
+              <Image
+                src={qrCode}
+                alt="QR Code"
+                width={parseInt(size)}
+                height={parseInt(size)}
+                priority={true}
+                className="rounded-lg shadow-lg"
+              />
+            </a>
           </div>
           <div className="mt-8">
             <Button onClick={(e) => handleDownload(e, "png")} className="mr-2">
