@@ -6,9 +6,7 @@ import { Button } from "../components/ui/button";
 import { Slider } from "../components/ui/slider";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
-import { Icons } from "@/components/icon";
 
 export default function Home() {
   const [input, setInput] = useState("");
@@ -28,7 +26,6 @@ export default function Home() {
         },
         body: JSON.stringify({ content: input, size: 200 }),
       });
-      console.log(response);
       if (response.ok) {
         const blob = await response.blob();
         setQrCode(URL.createObjectURL(blob));
@@ -78,7 +75,7 @@ export default function Home() {
   });
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-12">
+    <main className="flex min-h-screen flex-col place-items-center p-12">
       <form className="mt-4 flex items-center gap-x-4">
         <div className="flex flex-col">
           <Label htmlFor="url" className="mb-1">
@@ -105,19 +102,19 @@ export default function Home() {
       </form>
 
       <Slider
-        className="mt-4 w-80"
+        className="mt-8 w-80"
         defaultValue={[size]}
         max={1000}
         min={200}
         step={10}
         onValueChange={(value) => setSize(value)}
       />
-      <p className="mt-4">
+      <p className="mt-8">
         Size: {size} x {size} px
       </p>
 
       {qrCode && (
-        <div className="flex flex-col place-items-center mt-4">
+        <div className="flex flex-col place-items-center mt-8">
           <div className="relative">
             <Image
               src={qrCode}
@@ -128,7 +125,7 @@ export default function Home() {
               className="rounded-lg shadow-lg"
             />
           </div>
-          <div className="mt-4">
+          <div className="mt-8">
             <Button onClick={(e) => handleDownload(e, "png")} className="mr-2">
               Download PNG
             </Button>
