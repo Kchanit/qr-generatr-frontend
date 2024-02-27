@@ -15,6 +15,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          defer
+          src="https://analytics.us.umami.is/script.js"
+          data-website-id="2c3e0a16-57d7-4af6-ac42-10574cca038f"
+        ></script>
+      </head>
       <body className={robotoMono.className}>
         <Header />
         {children}
